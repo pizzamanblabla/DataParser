@@ -6,8 +6,8 @@ interface DynamicDataExtractorInterface
 {
     /**
      * @param mixed $extractable
-     * @param array $config
+     * @param mixed $route
      * @return mixed
      */
-    public function extract($extractable, $config);
+    public function extract($extractable, $route);
 }

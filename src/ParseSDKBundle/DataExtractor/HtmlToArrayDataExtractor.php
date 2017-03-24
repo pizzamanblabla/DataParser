@@ -5,51 +5,52 @@ namespace ParseSDKBundle\DataExtractor;
 use DOMXPath;
 use DOMNode;
 use DOMNodeList;
+use ParseSDKBundle\Dto\Route;
+use ParseSDKBundle\Dto\RouteElement;
 
 class HtmlToArrayDataExtractor extends BaseHtmlToArrayDataExtractor implements DynamicDataExtractorInterface
 {
     /**
      * @param string $extractable
-     * @param array $config
+     * @param Route $route
      * @return string[]
      */
-    public function extract($extractable, $config)
+    public function extract($extractable, $route)
     {
         $xpath = $this->buildXpathFromHtml($extractable);
         $extracted = [];
 
-        if (array_key_exists('group', $config)) {
-            $group = $this->extractGroup($config['group'], $xpath);
+        if (!empty($route->getGroup())) {
+            $group = $this->extractGroup($route->getGroup(), $xpath);
 
             foreach ($group as $element) {
-                $extracted[] = $this->extractNodes($config['to_parse'], $xpath, $element);
+                $extracted[] = $this->extractNodes($route->getParseElements(), $xpath, $element);
             }
         } else {
-            $extracted[] = $this->extractNodes($config['to_parse'], $xpath);
+            $extracted[] = $this->extractNodes($route->getParseElements(), $xpath);
         }
 
         return $extracted;
     }
 
     /**
-     * @param string|string[] $params
+     * @param RouteElement[] $elements
      * @param DOMXPath $xpath
      * @param DOMNode|null $parentNode
      * @return string[]
      */
-    private function extractNodes($params, DOMXPath $xpath, DOMNode $parentNode = null)
+    private function extractNodes(array $elements, DOMXPath $xpath, DOMNode $parentNode = null): array
     {
         $extracted = [];
 
-        foreach ($params as $key => $value) {
-            if (is_array($value)) {
-                $extracted[$key] = $this->extractNodes($value, $xpath);
+        foreach ($elements as $key => $element) {
+            if (!empty($element->getChildren())) {
+                $extracted[$element->getKey()] = $this->extractNodes($element->getChildren(), $xpath);
             } else {
-
-                $extractedValues = $this->extractGroup($value, $xpath, $parentNode);
+                $extractedValues = $this->extractGroup($element->getValue(), $xpath, $parentNode);
 
                 if ($extractedValues->length) {
-                    $extracted[$key] = $this->resolveDataByKey($key, $extractedValues);
+                    $extracted[$element->getKey()] = $this->resolveDataByKey($element->getKey(), $extractedValues);
                 }
             }
         }
@@ -63,7 +64,7 @@ class HtmlToArrayDataExtractor extends BaseHtmlToArrayDataExtractor implements D
      * @param DOMNode|null $parentNode
      * @return DOMNodeList
      */
-    private function extractGroup(string $path, DOMXPath $xpath, DOMNode $parentNode = null)
+    private function extractGroup(string $path, DOMXPath $xpath, DOMNode $parentNode = null): DOMNodeList
     {
         return
             is_null($parentNode)

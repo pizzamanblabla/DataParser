@@ -15,6 +15,11 @@ class RouteElement
     private $value;
 
     /**
+     * @var RouteElement[]
+     */
+    private $children;
+
+    /**
      * @return string
      */
     public function getKey()
@@ -47,6 +52,24 @@ class RouteElement
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * @return RouteElement[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param RouteElement[] $children
+     * @return RouteElement
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = $children;
         return $this;
     }
 }
