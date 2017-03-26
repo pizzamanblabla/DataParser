@@ -44,6 +44,7 @@ class HtmlToArrayDataExtractor extends BaseHtmlToArrayDataExtractor implements D
         $extracted = [];
 
         foreach ($elements as $key => $element) {
+            /** @var RouteElement $element */
             if (!empty($element->getChildren())) {
                 $extracted[$element->getKey()] = $this->extractNodes($element->getChildren(), $xpath);
             } else {

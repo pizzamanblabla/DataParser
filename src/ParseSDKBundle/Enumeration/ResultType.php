@@ -2,7 +2,7 @@
 
 namespace ParseSDKBundle\Enumeration;
 
-class ResultType
+class ResultType extends BaseEnum
 {
     const EXCEL = 'excel';
 
