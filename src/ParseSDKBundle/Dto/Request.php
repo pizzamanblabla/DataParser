@@ -2,6 +2,8 @@
 
 namespace ParseSDKBundle\Dto;
 
+use ParseSDKBundle\Enumeration\SourceType;
+
 class Request
 {
     /**
@@ -13,6 +15,11 @@ class Request
      * @var string
      */
     private $rootResource;
+
+    /**
+     * @var SourceType
+     */
+    private $sourceType;
 
     /**
      * @return Page[]
@@ -47,6 +54,24 @@ class Request
     public function setRootResource($rootResource)
     {
         $this->rootResource = $rootResource;
+        return $this;
+    }
+
+    /**
+     * @return SourceType
+     */
+    public function getSourceType()
+    {
+        return $this->sourceType;
+    }
+
+    /**
+     * @param SourceType $sourceType
+     * @return Request
+     */
+    public function setSourceType($sourceType)
+    {
+        $this->sourceType = $sourceType;
         return $this;
     }
 }
