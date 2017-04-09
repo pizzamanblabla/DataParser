@@ -2,20 +2,39 @@
 
 namespace ParseSDKBundle\Dto;
 
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class RouteElement
 {
     /**
      * @var string
+     *
+     * @Type("string")
+     * @SerializedName("key")
+     *
+     * @Assert\NotBlank()
      */
     private $key;
 
     /**
      * @var string
+     *
+     * @Type("string")
+     * @SerializedName("value")
+     *
+     * @Assert\NotBlank()
      */
     private $value;
 
     /**
      * @var RouteElement[]
+     *
+     * @Type("array<ParseSDKBundle\Dto\RouteElement>")
+     * @SerializedName("children")
+     *
+     * @Assert\Valid()
      */
     private $children;
 

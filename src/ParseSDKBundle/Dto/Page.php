@@ -2,25 +2,50 @@
 
 namespace ParseSDKBundle\Dto;
 
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Page
 {
     /**
      * @var Page
+     *
+     * @Type("ParseSDKBundle\Dto\Page")
+     * @SerializedName("child")
+     *
+     * @Assert\Valid()
      */
     private $child;
 
     /**
      * @var string
+     *
+     * @Type("string")
+     * @SerializedName("name")
+     *
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @var Route
+     *
+     * @Type("ParseSDKBundle\Dto\Route")
+     * @SerializedName("route")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Valid()
      */
     private $route;
 
     /**
      * @var Pagination
+     *
+     * @Type("ParseSDKBundle\Dto\Pagination")
+     * @SerializedName("pagination")
+     *
+     * @Assert\Valid()
      */
     private $pagination;
 
