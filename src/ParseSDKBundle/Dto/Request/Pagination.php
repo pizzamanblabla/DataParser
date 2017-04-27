@@ -1,9 +1,8 @@
 <?php
 
-namespace ParseSDKBundle\Dto;
+namespace ParseSDKBundle\Dto\Request;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Pagination
@@ -11,8 +10,8 @@ class Pagination
     /**
      * @var Route
      *
-     * @Type("ParseSDKBundle\Dto\Route")
-     * @SerializedName("route")
+     * @Serializer\Type("ParseSDKBundle\Dto\Request\Route")
+     * @Serializer\SerializedName("route")
      *
      * @Assert\NotBlank()
      * @Assert\Valid()

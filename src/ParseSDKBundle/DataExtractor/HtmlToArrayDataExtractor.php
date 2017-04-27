@@ -5,10 +5,11 @@ namespace ParseSDKBundle\DataExtractor;
 use DOMXPath;
 use DOMNode;
 use DOMNodeList;
-use ParseSDKBundle\Dto\Route;
-use ParseSDKBundle\Dto\RouteElement;
+use DOMDocument;
+use ParseSDKBundle\Dto\Request\Route;
+use ParseSDKBundle\Dto\Request\RouteElement;
 
-class HtmlToArrayDataExtractor extends BaseHtmlToArrayDataExtractor implements DynamicDataExtractorInterface
+final class HtmlToArrayDataExtractor implements DynamicDataExtractorInterface
 {
     /**
      * @param string $extractable
@@ -31,6 +32,22 @@ class HtmlToArrayDataExtractor extends BaseHtmlToArrayDataExtractor implements D
         }
 
         return $extracted;
+    }
+
+    /**
+     * @param string $html
+     * @return DOMXPath
+     */
+    private function buildXpathFromHtml(string $html): DOMXPath
+    {
+        libxml_use_internal_errors(true);
+
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = true;
+        $dom->encoding = 'UTF-8';
+        $dom->loadHTML($html);
+
+        return new DOMXPath($dom);
     }
 
     /**

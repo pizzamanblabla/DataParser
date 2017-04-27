@@ -1,5 +1,5 @@
 <?php
 
-namespace ParseSDKBundle\Dto;
+namespace ParseSDKBundle\Dto\Request;
 
 interface InternalRequestInterface {}

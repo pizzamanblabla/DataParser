@@ -1,6 +1,6 @@
 <?php
 
-namespace ParseSDKBundle\Dto;
+namespace ParseSDKBundle\Dto\Response;
 
 use ParseSDKBundle\Enumeration\ResponseType;
 

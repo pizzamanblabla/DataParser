@@ -2,11 +2,12 @@
 
 namespace ParseSDKBundle\Service;
 
+use HttpRequest;
 use ParseSDKBundle\DataExtractor\DynamicDataExtractorInterface;
-use ParseSDKBundle\Dto\InternalRequestInterface;
-use ParseSDKBundle\Dto\InternalResponseInterface;
-use ParseSDKBundle\Dto\Page;
-use ParseSDKBundle\Dto\Request;
+use ParseSDKBundle\Dto\Request\InternalRequestInterface;
+use ParseSDKBundle\Dto\Request\Page;
+use ParseSDKBundle\Dto\Request\Request;
+use ParseSDKBundle\Dto\Response\InternalResponseInterface;
 
 class WebsiteParser implements ServiceInterface
 {
@@ -89,7 +90,7 @@ class WebsiteParser implements ServiceInterface
 
     /**
      * @param string $url
-     * @return HttpRequest
+     * @return \HttpRequest
      */
     private function createRequest(string $url): HttpRequest
     {

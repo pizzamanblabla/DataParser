@@ -1,9 +1,8 @@
 <?php
 
-namespace ParseSDKBundle\Dto;
+namespace ParseSDKBundle\Dto\Request;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Route
@@ -11,8 +10,8 @@ class Route
     /**
      * @var RouteElement
      *
-     * @Type("ParseSDKBundle\Dto\RouteElement")
-     * @SerializedName("group")
+     * @Serializer\Type("ParseSDKBundle\Dto\Request\RouteElement")
+     * @Serializer\SerializedName("group")
      *
      * @Assert\Valid()
      */

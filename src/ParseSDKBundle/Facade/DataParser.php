@@ -4,6 +4,7 @@ namespace ParseSDKBundle\Facade;
 
 use ParseSDKBundle\Dto\Request;
 use ParseSDKBundle\Enumeration\ResultType;
+use ParseSDKBundle\Facade\Exception\ValidationException;
 use ParseSDKBundle\Service\ServiceInterface;
 use ParseSDKBundle\Transformer\Response\TransformerFactoryInterface;
 use ParseSDKBundle\Transformer\TransformerInterface;
@@ -49,6 +50,11 @@ class DataParser
         $this->responseTransformerFactory = $responseTransformerFactory;
     }
 
+    /**
+     * @param array $config
+     * @param string $responseType
+     * @return mixed
+     */
     public function parse(array $config, $responseType)
     {
         $request = $this->transformer->transform($config);

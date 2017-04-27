@@ -1,16 +1,16 @@
 <?php
 
-namespace ParseSDKBundle\Dto;
+namespace ParseSDKBundle\Dto\Response;
 
 use ParseSDKBundle\Enumeration\ResponseType;
 
-trait Erroneous
+trait Successful
 {
     /**
      * @return ResponseType
      */
     public function obtainType()
     {
-        return ResponseType::create(ResponseType::ERRONEOUS);
+        return ResponseType::create(ResponseType::SUCCESSFUL);
     }
 }

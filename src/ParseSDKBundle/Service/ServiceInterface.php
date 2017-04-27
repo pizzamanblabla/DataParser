@@ -2,8 +2,8 @@
 
 namespace ParseSDKBundle\Service;
 
-use ParseSDKBundle\Dto\InternalRequestInterface;
-use ParseSDKBundle\Dto\InternalResponseInterface;
+use ParseSDKBundle\Dto\Request\InternalRequestInterface;
+use ParseSDKBundle\Dto\Response\InternalResponseInterface;
 
 interface ServiceInterface
 {

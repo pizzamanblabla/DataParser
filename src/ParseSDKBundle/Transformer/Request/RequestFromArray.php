@@ -2,7 +2,7 @@
 
 namespace ParseSDKBundle\Transformer\Request;
 
-use ParseSDKBundle\Dto\Request;
+use ParseSDKBundle\Dto\Request\Request;
 use ParseSDKBundle\ObjectBuilder\ObjectBuilderInterface;
 use ParseSDKBundle\Transformer\Exception\WrongInputTypeException;
 use ParseSDKBundle\Transformer\TransformerInterface;

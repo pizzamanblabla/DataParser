@@ -1,10 +1,9 @@
 <?php
 
-namespace ParseSDKBundle\Dto;
+namespace ParseSDKBundle\Dto\Request;
 
 use ParseSDKBundle\Enumeration\SourceType;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Request
@@ -12,10 +11,10 @@ class Request
     /**
      * @var Page[]
      *
-     * @Type("array<ParseSDKBundle\Dto\Page>")
-     * @SerializedName("pages")
+     * @Serializer\Type("array<ParseSDKBundle\Dto\Request\Page>")
+     * @Serializer\SerializedName("pages")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Valid()
      */
     private $pages;
@@ -23,10 +22,10 @@ class Request
     /**
      * @var string
      *
-     * @Type("string")
-     * @SerializedName("rootResource")
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("rootResource")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $rootResource;
 
