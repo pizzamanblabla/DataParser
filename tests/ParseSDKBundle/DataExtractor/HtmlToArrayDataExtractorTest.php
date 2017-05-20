@@ -2,7 +2,15 @@
 
 namespace ParseSDKBundle\DataExtractor;
 
-class HtmlToArrayDataExtractorTest
-{
+use PHPUnit\Framework\TestCase;
 
+class HtmlToArrayDataExtractorTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function extract()
+    {
+        $this->assertEquals(1,1);
+    }
 }

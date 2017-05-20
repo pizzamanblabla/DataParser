@@ -11,7 +11,6 @@ class Route
      * @var RouteElement
      *
      * @Serializer\Type("ParseSDKBundle\Dto\Request\RouteElement")
-     * @Serializer\SerializedName("group")
      *
      * @Assert\Valid()
      */
@@ -20,8 +19,8 @@ class Route
     /**
      * @var RouteElement[]
      *
-     * @Type("array<ParseSDKBundle\Dto\RouteElement>")
-     * @SerializedName("elements")
+     * @Serializer\Type("array<ParseSDKBundle\Dto\RouteElement>")
+     * @Serializer\SerializedName("elements")
      *
      * @Assert\NotBlank()
      * @Assert\Valid()
@@ -38,7 +37,7 @@ class Route
 
     /**
      * @param RouteElement $group
-     * @return Route
+     * @return $this
      */
     public function setGroup($group)
     {
@@ -56,7 +55,7 @@ class Route
 
     /**
      * @param RouteElement[] $parseElements
-     * @return Route
+     * @return $this
      */
     public function setParseElements(array $parseElements)
     {

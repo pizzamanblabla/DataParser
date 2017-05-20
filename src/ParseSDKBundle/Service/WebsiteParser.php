@@ -96,6 +96,7 @@ class WebsiteParser implements ServiceInterface
     {
         return new HttpRequest('GET', $url);
     }
+
     /**
      * @param string $url
      * @return string
@@ -105,6 +106,7 @@ class WebsiteParser implements ServiceInterface
         $response = $this->protocol->send($this->createRequest($url), []);
         return $response->getBody()->getContents();
     }
+
     /**
      * @param string $url
      * @param string $rootUrl

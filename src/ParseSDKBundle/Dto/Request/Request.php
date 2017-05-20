@@ -12,9 +12,8 @@ class Request
      * @var Page[]
      *
      * @Serializer\Type("array<ParseSDKBundle\Dto\Request\Page>")
-     * @Serializer\SerializedName("pages")
      *
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Valid()
      */
     private $pages;
@@ -23,9 +22,8 @@ class Request
      * @var string
      *
      * @Serializer\Type("string")
-     * @Serializer\SerializedName("rootResource")
      *
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      */
     private $rootResource;
 

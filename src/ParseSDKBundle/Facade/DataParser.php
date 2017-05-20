@@ -2,7 +2,7 @@
 
 namespace ParseSDKBundle\Facade;
 
-use ParseSDKBundle\Dto\Request;
+use ParseSDKBundle\Dto\Request\InternalRequestInterface;
 use ParseSDKBundle\Enumeration\ResultType;
 use ParseSDKBundle\Facade\Exception\ValidationException;
 use ParseSDKBundle\Service\ServiceInterface;
@@ -67,11 +67,11 @@ class DataParser
     }
 
     /**
-     * @param Request $request
+     * @param InternalRequestInterface $request
      * @return void
      * @throws ValidationException
      */
-    private function validateRequest(Request $request)
+    private function validateRequest(InternalRequestInterface $request)
     {
         $errors = $this->validator->validate($request);
 

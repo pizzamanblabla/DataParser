@@ -11,7 +11,6 @@ class RouteElement
      * @var string
      *
      * @Serializer\Type("string")
-     * @Serializer\SerializedName("key")
      *
      * @Assert\NotBlank()
      */
@@ -21,7 +20,6 @@ class RouteElement
      * @var string
      *
      * @Serializer\Type("string")
-     * @Serializer\SerializedName("value")
      *
      * @Assert\NotBlank()
      */
@@ -31,7 +29,6 @@ class RouteElement
      * @var RouteElement[]
      *
      * @Serializer\Type("array<ParseSDKBundle\Dto\Request\RouteElement>")
-     * @Serializer\SerializedName("children")
      *
      * @Assert\Valid()
      */

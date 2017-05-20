@@ -84,7 +84,7 @@ abstract class BaseEnum
      * @return bool
      * @throws Exception
      */
-    public function eq($value)
+    public function isEqual($value)
     {
         if (!is_object($value)) {
             return ($this->value == $value);

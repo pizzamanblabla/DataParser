@@ -2,6 +2,7 @@
 
 namespace ParseSDKBundle\Transformer\Response;
 
+use JMS\Serializer\Serializer;
 use ParseSDKBundle\Enumeration\ResultType;
 
 class TransformerFactory implements TransformerFactoryInterface
@@ -11,6 +12,6 @@ class TransformerFactory implements TransformerFactoryInterface
      */
     public function spawn(ResultType $type)
     {
-        // TODO: Implement spawn() method.
+
     }
 }

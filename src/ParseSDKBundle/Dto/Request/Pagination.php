@@ -11,9 +11,8 @@ class Pagination
      * @var Route
      *
      * @Serializer\Type("ParseSDKBundle\Dto\Request\Route")
-     * @Serializer\SerializedName("route")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Valid()
      */
     private $route;

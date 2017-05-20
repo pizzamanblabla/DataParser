@@ -11,7 +11,6 @@ class Page
      * @var Page
      *
      * @Serializer\Type("ParseSDKBundle\Dto\Request\Page")
-     * @Serializer\SerializedName("child")
      *
      * @Assert\Valid()
      */
@@ -20,8 +19,7 @@ class Page
     /**
      * @var string
      *
-     * @Type("string")
-     * @SerializedName("name")
+     * @Serializer\Type("string")
      *
      * @Assert\NotBlank()
      */
@@ -30,8 +28,7 @@ class Page
     /**
      * @var Route
      *
-     * @Type("ParseSDKBundle\Dto\Request\Route")
-     * @SerializedName("route")
+     * @Serializer\Type("ParseSDKBundle\Dto\Request\Route")
      *
      * @Assert\NotBlank()
      * @Assert\Valid()
@@ -41,7 +38,7 @@ class Page
     /**
      * @var Pagination
      *
-     * @Type("ParseSDKBundle\Dto\Request\Pagination")
+     * @Serializer\Type("ParseSDKBundle\Dto\Request\Pagination")
      * @SerializedName("pagination")
      *
      * @Assert\Valid()
