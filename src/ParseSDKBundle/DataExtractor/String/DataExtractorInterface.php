@@ -1,12 +1,12 @@
 <?php
 
-namespace ParseSDKBundle\DataExtractor;
+namespace ParseSDKBundle\DataExtractor\String;
 
 interface DataExtractorInterface
 {
     /**
      * @param mixed $extractable
-     * @return mixed
+     * @return string
      */
     public function extract($extractable);
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace ParseSDKBundle\DataExtractor;
+namespace ParseSDKBundle\DataExtractor\String;
 
 trait Decorator
 {

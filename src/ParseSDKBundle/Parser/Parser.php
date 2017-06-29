@@ -1,16 +1,15 @@
 <?php
 
-namespace ParseSDKBundle\Service;
+namespace ParseSDKBundle\Parser;
 
-use HttpRequest;
 use ParseSDKBundle\DataExtractor\Configurable\DataExtractorInterface;
+use ParseSDKBundle\DataProvider\DataProviderInterface;
 use ParseSDKBundle\Dto\Request\InternalRequestInterface;
 use ParseSDKBundle\Dto\Request\Page;
 use ParseSDKBundle\Dto\Request\Request;
 use ParseSDKBundle\Dto\Response\InternalResponseInterface;
-use ParseSDKBundle\Protocol\ProtocolInterface;
 
-class WebsiteParser implements ServiceInterface
+class Parser implements ParserInterface
 {
     /**
      * @var DataExtractorInterface
@@ -18,18 +17,17 @@ class WebsiteParser implements ServiceInterface
     private $dataExtractor;
 
     /**
-     * @var ProtocolInterface
+     * @var DataProviderInterface
      */
-    private $protocol;
+    private $dataProvider;
 
     /**
+     * {@inheritdoc}
      * @param InternalRequestInterface|Request $request
-     * @return InternalResponseInterface
      */
-    public function behave(InternalRequestInterface $request): InternalResponseInterface
+    public function parse(InternalRequestInterface $request): InternalResponseInterface
     {
-
-        $parsed = array_map(
+        return array_map(
             function(Page $page) use ($request) {
                 return $this->parseRecursively(
                     $page,
@@ -43,20 +41,14 @@ class WebsiteParser implements ServiceInterface
     /**
      * @param Page $page
      * @param string|null $rootResource
-     * @param string $partUrl
+     * @param string $partPath
      * @return array
      */
-    private function parseRecursively(Page $page, string $rootResource, string $partUrl = null): array
+    private function parseRecursively(Page $page, string $rootResource, string $partPath = null): array
     {
         $parsed = [];
 
-        if (!is_null($partUrl)) {
-            $pageUrl = $this->resolveUrl($partUrl, $rootResource);
-        } else {
-            $pageUrl = $rootResource;
-        }
-
-        $html = $this->getPage($pageUrl);
+        $html = $this->getPage($partPath, $rootResource);
         $parsed[$page->getName()] = $this->dataExtractor->extract($html, $page->getRoute());
 
         if (!empty($page->getChild())) {
@@ -93,35 +85,8 @@ class WebsiteParser implements ServiceInterface
         return $parsed;
     }
 
-    /**
-     * @param string $url
-     * @return \HttpRequest
-     */
-    private function createRequest(string $url): HttpRequest
+    private function getPage(InternalRequestInterface $request, string $partPath)
     {
-        return new HttpRequest('GET', $url);
-    }
-
-    /**
-     * @param string $url
-     * @return string
-     */
-    private function getPage(string $url): string
-    {
-        $response = $this->protocol->send($this->createRequest($url), []);
-        return $response->getBody()->getContents();
-    }
-
-    /**
-     * @param string $url
-     * @param string $rootUrl
-     * @return string
-     */
-    private function resolveUrl(string $url, string $rootUrl): string
-    {
-        return
-            preg_match('/http(s)?:\/\//', $url)
-                ? $url
-                : rtrim($rootUrl, '/') . $url;
+        return $this->dataProvider->provide($request, $partPath);
     }
 }

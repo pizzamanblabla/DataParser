@@ -1,6 +1,6 @@
 <?php
 
-namespace ParseSDKBundle\DataExtractor;
+namespace ParseSDKBundle\DataExtractor\Configurable;
 
 use DOMXPath;
 use DOMNode;
@@ -9,14 +9,12 @@ use DOMDocument;
 use ParseSDKBundle\Dto\Request\Route;
 use ParseSDKBundle\Dto\Request\RouteElement;
 
-final class HtmlToArrayDataExtractor implements DynamicDataExtractorInterface
+final class HtmlDataExtractor implements DataExtractorInterface
 {
     /**
-     * @param string $extractable
-     * @param Route $route
-     * @return string[]
+     * {@inheritdoc}
      */
-    public function extract($extractable, $route)
+    public function extract($extractable, Route $route)
     {
         $xpath = $this->buildXpathFromHtml($extractable);
         $extracted = [];
