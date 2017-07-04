@@ -5,12 +5,13 @@ namespace ParseSDKBundle\Facade;
 use ParseSDKBundle\Dto\Request\InternalRequestInterface;
 use ParseSDKBundle\Enumeration\ResultType;
 use ParseSDKBundle\Facade\Exception\ValidationException;
+use ParseSDKBundle\Parser\ParserInterface;
 use ParseSDKBundle\Service\ServiceInterface;
 use ParseSDKBundle\Transformer\Response\TransformerFactoryInterface;
 use ParseSDKBundle\Transformer\TransformerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class DataParser
+final class DataParser
 {
     /**
      * @var TransformerInterface
@@ -23,9 +24,9 @@ class DataParser
     private $validator;
 
     /**
-     * @var ServiceInterface
+     * @var ParserInterface
      */
-    private $parseService;
+    private $parser;
 
     /**
      * @var TransformerFactoryInterface
@@ -35,18 +36,18 @@ class DataParser
     /**
      * @param TransformerInterface $transformer
      * @param ValidatorInterface $validator
-     * @param ServiceInterface $parseService
+     * @param ParserInterface $parser
      * @param TransformerFactoryInterface $responseTransformerFactory
      */
     public function __construct(
         TransformerInterface $transformer,
         ValidatorInterface $validator,
-        ServiceInterface $parseService,
+        ParserInterface $parser,
         TransformerFactoryInterface $responseTransformerFactory
     ) {
         $this->transformer = $transformer;
         $this->validator = $validator;
-        $this->parseService = $parseService;
+        $this->parser = $parser;
         $this->responseTransformerFactory = $responseTransformerFactory;
     }
 
@@ -61,9 +62,13 @@ class DataParser
 
         $this->validateRequest($request);
 
-        $response = $this->parseService->behave($request);
+        $response = $this->parser->parse($request);
 
-        return $this->responseTransformerFactory->spawn(ResultType::create($responseType))->transform($response);
+        return
+            $this->responseTransformerFactory
+                ->spawn(ResultType::create($responseType))
+                ->transform($response)
+            ;
     }
 
     /**

@@ -2,12 +2,13 @@
 
 namespace ParseSDKBundle\DataProvider;
 
+use ParseSDKBundle\Dto\Request\Query;
+
 interface DataProviderInterface
 {
     /**
-     * @param string $sourcePath
-     * @param mixed[] $params
+     * @param Query $query
      * @return mixed[]
      */
-    public function provide(string $sourcePath, array $params = []): array;
+    public function provide(Query $query): array;
 }

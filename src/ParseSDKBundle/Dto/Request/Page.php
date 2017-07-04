@@ -39,11 +39,20 @@ class Page
      * @var Pagination
      *
      * @Serializer\Type("ParseSDKBundle\Dto\Request\Pagination")
-     * @SerializedName("pagination")
      *
      * @Assert\Valid()
      */
     private $pagination;
+
+
+    /**
+     * @var Query
+     *
+     * @Serializer\Type("ParseSDKBundle\Dto\Request\Query")
+     *
+     * @Assert\Valid()
+     */
+    private $query;
 
     /**
      * @return Page
@@ -114,6 +123,24 @@ class Page
     public function setPagination($pagination)
     {
         $this->pagination = $pagination;
+        return $this;
+    }
+
+    /**
+     * @return Query
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
+     * @param Query $query
+     * @return Page
+     */
+    public function setQuery(Query $query)
+    {
+        $this->query = $query;
         return $this;
     }
 }

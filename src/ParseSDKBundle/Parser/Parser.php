@@ -9,7 +9,7 @@ use ParseSDKBundle\Dto\Request\Page;
 use ParseSDKBundle\Dto\Request\Request;
 use ParseSDKBundle\Dto\Response\InternalResponseInterface;
 
-class Parser implements ParserInterface
+final class Parser implements ParserInterface
 {
     /**
      * @var DataExtractorInterface
@@ -22,12 +22,22 @@ class Parser implements ParserInterface
     private $dataProvider;
 
     /**
-     * {@inheritdoc}
+     * @param DataExtractorInterface $dataExtractor
+     * @param DataProviderInterface $dataProvider
+     */
+    public function __construct(DataExtractorInterface $dataExtractor, DataProviderInterface $dataProvider)
+    {
+        $this->dataExtractor = $dataExtractor;
+        $this->dataProvider = $dataProvider;
+    }
+
+    /**
      * @param InternalRequestInterface|Request $request
+     * @return InternalResponseInterface
      */
     public function parse(InternalRequestInterface $request): InternalResponseInterface
     {
-        return array_map(
+        $parsed = array_map(
             function(Page $page) use ($request) {
                 return $this->parseRecursively(
                     $page,
@@ -41,14 +51,21 @@ class Parser implements ParserInterface
     /**
      * @param Page $page
      * @param string|null $rootResource
-     * @param string $partPath
+     * @param string $partUrl
      * @return array
      */
-    private function parseRecursively(Page $page, string $rootResource, string $partPath = null): array
+    private function parseRecursively(Page $page, string $rootResource, string $partUrl = null): array
     {
         $parsed = [];
 
-        $html = $this->getPage($partPath, $rootResource);
+        if (!is_null($partUrl)) {
+            $pageUrl = $this->resolveUrl($partUrl, $rootResource);
+        } else {
+            $pageUrl = $rootResource;
+        }
+
+        $html = $this->dataProvider->provide($page->getQuery()->setPath($pageUrl));
+
         $parsed[$page->getName()] = $this->dataExtractor->extract($html, $page->getRoute());
 
         if (!empty($page->getChild())) {
@@ -85,8 +102,16 @@ class Parser implements ParserInterface
         return $parsed;
     }
 
-    private function getPage(InternalRequestInterface $request, string $partPath)
+    /**
+     * @param string $url
+     * @param string $rootUrl
+     * @return string
+     */
+    private function resolveUrl(string $url, string $rootUrl): string
     {
-        return $this->dataProvider->provide($request, $partPath);
+        return
+            preg_match('/http(s)?:\/\//', $url)
+                ? $url
+                : rtrim($rootUrl, '/') . $url;
     }
 }

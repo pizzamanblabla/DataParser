@@ -23,7 +23,6 @@ class Route
      * @Serializer\SerializedName("elements")
      *
      * @Assert\NotBlank()
-     * @Assert\Valid()
      */
     private $parseElements;
 
