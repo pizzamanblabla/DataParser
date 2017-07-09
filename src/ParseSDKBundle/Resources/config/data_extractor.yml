@@ -1,0 +1,20 @@
+services:
+    parse_sdk.data_extractor.predefined.composite:
+        class: ParseSDKBundle\DataExtractor\Predefined\Composite
+        arguments:
+            -
+                - ''
+                - ''
+
+    parse_sdk.data_extractor.predefined.http_response.composite:
+        class: ParseSDKBundle\DataExtractor\Predefined\Composite
+        arguments:
+            -
+                - '@parse_sdk.data_extractor.predefined.http_response.content_data'
+                - '@parse_sdk.data_extractor.predefined.http_response.headers'
+
+    parse_sdk.data_extractor.predefined.http_response.content_data:
+        class: ParseSDKBundle\DataExtractor\Predefined\HttpResponse\ContentData
+
+    parse_sdk.data_extractor.predefined.http_response.headers:
+        class: ParseSDKBundle\DataExtractor\Predefined\HttpResponse\Headers

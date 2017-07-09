@@ -1,8 +1,8 @@
 <?php
 
-namespace ParseSDKBundle\Interaction\PayloadModifier;
+namespace ParseSDKBundle\Interaction\DataModifier;
 
-final class Blank implements PayloadModifierInterface
+final class Blank implements DataModifierInterface
 {
     /**
      * {@inheritdoc}

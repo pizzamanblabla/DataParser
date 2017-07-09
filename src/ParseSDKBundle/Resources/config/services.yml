@@ -1,1 +1,9 @@
 services:
+    parse_sdk.guzzle.client:
+        class: GuzzleHttp\Client
+
+    parse_sdk.jms.object_builder:
+        class: ParseSDKBundle\Internal\ObjectBuilder\JMSObjectBuilder
+        arguments:
+            - '@jms_serializer'
+            - '@logger'

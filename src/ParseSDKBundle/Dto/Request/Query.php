@@ -28,13 +28,6 @@ class Query
      *
      * @Serializer\Type("string")
      */
-    private $proxy;
-
-    /**
-     * @var string
-     *
-     * @Serializer\Type("string")
-     */
     private $payloadModifier;
 
     /**
@@ -43,6 +36,11 @@ class Query
      * @Serializer\Type("string")
      */
     private $path;
+
+    /**
+     * @var string[]
+     */
+    private $headers = [];
 
     /**
      * @return string
@@ -78,14 +76,6 @@ class Query
     {
         $this->parameters = $parameters;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProxy()
-    {
-        return $this->proxy;
     }
 
     /**
@@ -131,6 +121,24 @@ class Query
     public function setPath($path)
     {
         $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param string[] $headers
+     * @return Query
+     */
+    public function setHeaders(array $headers)
+    {
+        $this->headers = $headers;
         return $this;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace ParseSDKBundle\Interaction\PayloadModifier;
+namespace ParseSDKBundle\Interaction\DataModifier;
 
-final class Json implements PayloadModifierInterface
+final class Json implements DataModifierInterface
 {
     /**
      * {@inheritdoc}

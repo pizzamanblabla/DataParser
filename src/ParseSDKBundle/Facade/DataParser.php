@@ -6,7 +6,6 @@ use ParseSDKBundle\Dto\Request\InternalRequestInterface;
 use ParseSDKBundle\Enumeration\ResultType;
 use ParseSDKBundle\Facade\Exception\ValidationException;
 use ParseSDKBundle\Parser\ParserInterface;
-use ParseSDKBundle\Service\ServiceInterface;
 use ParseSDKBundle\Transformer\Response\TransformerFactoryInterface;
 use ParseSDKBundle\Transformer\TransformerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;

@@ -37,15 +37,16 @@ final class Parser implements ParserInterface
      */
     public function parse(InternalRequestInterface $request): InternalResponseInterface
     {
-        $parsed = array_map(
-            function(Page $page) use ($request) {
-                return $this->parseRecursively(
-                    $page,
-                    $request->getRootResource()
-                );
-            },
-            $request->getPages()
-        );
+        return
+            array_map(
+                function(Page $page) use ($request) {
+                    return $this->parseRecursively(
+                        $page,
+                        $request->getRootResource()
+                    );
+                },
+                $request->getPages()
+            );
     }
 
     /**
@@ -64,9 +65,9 @@ final class Parser implements ParserInterface
             $pageUrl = $rootResource;
         }
 
-        $html = $this->dataProvider->provide($page->getQuery()->setPath($pageUrl));
+        $data = $this->dataProvider->provide($page->getQuery()->setPath($pageUrl));
 
-        $parsed[$page->getName()] = $this->dataExtractor->extract($html, $page->getRoute());
+        $parsed[$page->getName()] = $this->dataExtractor->extract($data, $page->getRoute());
 
         if (!empty($page->getChild())) {
             foreach ($parsed[$page->getName()] as $key => $element) {
@@ -88,7 +89,7 @@ final class Parser implements ParserInterface
         }
 
         if (!empty($page->getPagination())) {
-            $urlPagination = $this->dataExtractor->extract($html, $page->getPagination()->getRoute());
+            $urlPagination = $this->dataExtractor->extract($data, $page->getPagination()->getRoute());
 
             if (count($urlPagination[0])) {
                 $parsed[$page->getName()] =

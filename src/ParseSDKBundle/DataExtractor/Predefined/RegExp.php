@@ -3,15 +3,15 @@
 namespace ParseSDKBundle\DataExtractor\Predefined;
 
 use ParseSDKBundle\DataExtractor\Exception\DataExtractionException;
-use ParseSDKBundle\Interaction\PayloadModifier\PayloadModifierInterface;
+use ParseSDKBundle\Interaction\DataModifier\DataModifierInterface;
 use ParseSDKBundle\Interaction\Sanitizer\SanitizerInterface;
 
 final class RegExp implements DataExtractorInterface
 {
     /**
-     * @var PayloadModifierInterface
+     * @var DataModifierInterface
      */
-    private $payloadModifier;
+    private $dataModifier;
 
     /**
      * @var SanitizerInterface
@@ -24,16 +24,16 @@ final class RegExp implements DataExtractorInterface
     private $regExp;
 
     /**
-     * @param PayloadModifierInterface $payloadModifier
+     * @param DataModifierInterface $dataModifier
      * @param SanitizerInterface $sanitizer
      * @param string $regExp
      */
     public function __construct(
-        PayloadModifierInterface $payloadModifier,
+        DataModifierInterface $dataModifier,
         SanitizerInterface $sanitizer,
         string $regExp
     ) {
-        $this->payloadModifier = $payloadModifier;
+        $this->dataModifier = $dataModifier;
         $this->sanitizer = $sanitizer;
         $this->regExp = $regExp;
     }
@@ -49,6 +49,6 @@ final class RegExp implements DataExtractorInterface
 
         $matched = preg_match($this->regExp, $extractable, $match) ? $match[0] : '';
 
-        return $this->payloadModifier->modify($this->sanitizer->sanitize($matched));
+        return $this->dataModifier->modify($this->sanitizer->sanitize($matched));
     }
 }

@@ -9,7 +9,7 @@ use DOMDocument;
 use ParseSDKBundle\Dto\Request\Route;
 use ParseSDKBundle\Dto\Request\RouteElement;
 
-final class HtmlDataExtractor implements DataExtractorInterface
+final class Html implements DataExtractorInterface
 {
     /**
      * {@inheritdoc}

@@ -1,8 +1,8 @@
 <?php
 
-namespace ParseSDKBundle\Interaction\PayloadModifier;
+namespace ParseSDKBundle\Interaction\DataModifier;
 
-interface PayloadModifierInterface
+interface DataModifierInterface
 {
     /**
      * @param string $modifiable
