@@ -1,6 +1,10 @@
+parameters:
+    parse_sdk.data_extractor.extraction_type.json: 'json'
+    parse_sdk.data_extractor.extraction_type.array: 'array'
+    parse_sdk.data_extractor.extraction_type.html: 'html'
+
 services:
-    parse_sdk.data_extractor.predefined.composite:
-        class: ParseSDKBundle\DataExtractor\Predefined\Composite
+       class: ParseSDKBundle\DataExtractor\Predefined\Composite
         arguments:
             -
                 - ''
@@ -15,6 +19,25 @@ services:
 
     parse_sdk.data_extractor.predefined.http_response.content_data:
         class: ParseSDKBundle\DataExtractor\Predefined\HttpResponse\ContentData
-
+ 
     parse_sdk.data_extractor.predefined.http_response.headers:
         class: ParseSDKBundle\DataExtractor\Predefined\HttpResponse\Headers
+
+    parse_sdk.data_extractor.configurable.factory:
+        class: ParseSDKBundle\DataExtractor\Configurable\Factory
+        arguments:
+            -
+                '%parse_sdk.data_extractor.extraction_type.json%': '@parse_sdk.data_extractor.configurable.json'
+                '%parse_sdk.data_extractor.extraction_type.array%': '@parse_sdk.data_extractor.configurable.array'
+                '%parse_sdk.data_extractor.extraction_type.html%': '@parse_sdk.data_extractor.configurable.html'
+
+    parse_sdk.data_extractor.configurable.json:
+        class: ParseSDKBundle\DataExtractor\Configurable\Json
+        arguments:
+            - '@parse_sdk.data_extractor.configurable.array'
+
+    parse_sdk.data_extractor.configurable.array:
+        class: ParseSDKBundle\DataExtractor\Configurable\ArrayData
+
+    parse_sdk.data_extractor.configurable.html:
+        class: ParseSDKBundle\DataExtractor\Configurable\Html

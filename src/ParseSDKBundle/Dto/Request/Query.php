@@ -39,8 +39,17 @@ class Query
 
     /**
      * @var string[]
+     *
+     * @Serializer\Type("array")
      */
     private $headers = [];
+
+    /**
+     * @var string
+     *
+     * @Serializer\Type("string")
+     */
+    private $expectedContentType;
 
     /**
      * @return string
@@ -139,6 +148,24 @@ class Query
     public function setHeaders(array $headers)
     {
         $this->headers = $headers;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpectedContentType()
+    {
+        return $this->expectedContentType;
+    }
+
+    /**
+     * @param string $expectedContentType
+     * @return Query
+     */
+    public function setExpectedContentType($expectedContentType)
+    {
+        $this->expectedContentType = $expectedContentType;
         return $this;
     }
 }

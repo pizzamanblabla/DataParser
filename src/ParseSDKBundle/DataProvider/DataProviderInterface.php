@@ -8,7 +8,7 @@ interface DataProviderInterface
 {
     /**
      * @param Query $query
-     * @return mixed[]
+     * @return string
      */
-    public function provide(Query $query): array;
+    public function provide(Query $query): string;
 }

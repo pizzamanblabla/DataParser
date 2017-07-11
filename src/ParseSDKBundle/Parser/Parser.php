@@ -2,19 +2,22 @@
 
 namespace ParseSDKBundle\Parser;
 
-use ParseSDKBundle\DataExtractor\Configurable\DataExtractorInterface;
+use Throwable;
+use ParseSDKBundle\DataExtractor\Configurable\FactoryInterface;
 use ParseSDKBundle\DataProvider\DataProviderInterface;
 use ParseSDKBundle\Dto\Request\InternalRequestInterface;
 use ParseSDKBundle\Dto\Request\Page;
+use ParseSDKBundle\Dto\Request\Query;
 use ParseSDKBundle\Dto\Request\Request;
+use ParseSDKBundle\Dto\Request\Route;
 use ParseSDKBundle\Dto\Response\InternalResponseInterface;
 
 final class Parser implements ParserInterface
 {
     /**
-     * @var DataExtractorInterface
+     * @var FactoryInterface
      */
-    private $dataExtractor;
+    private $dataExtractorFactory;
 
     /**
      * @var DataProviderInterface
@@ -22,12 +25,12 @@ final class Parser implements ParserInterface
     private $dataProvider;
 
     /**
-     * @param DataExtractorInterface $dataExtractor
+     * @param FactoryInterface $dataExtractorFactory
      * @param DataProviderInterface $dataProvider
      */
-    public function __construct(DataExtractorInterface $dataExtractor, DataProviderInterface $dataProvider)
+    public function __construct(FactoryInterface $dataExtractorFactory, DataProviderInterface $dataProvider)
     {
-        $this->dataExtractor = $dataExtractor;
+        $this->dataExtractorFactory = $dataExtractorFactory;
         $this->dataProvider = $dataProvider;
     }
 
@@ -65,9 +68,13 @@ final class Parser implements ParserInterface
             $pageUrl = $rootResource;
         }
 
-        $data = $this->dataProvider->provide($page->getQuery()->setPath($pageUrl));
+        $data = $this->provideData($page->getQuery()->setPath($pageUrl));
 
-        $parsed[$page->getName()] = $this->dataExtractor->extract($data, $page->getRoute());
+        $parsed[$page->getName()] = $this->extract(
+            $data,
+            $page->getRoute(),
+            $page->getQuery()->getExpectedContentType()
+        );
 
         if (!empty($page->getChild())) {
             foreach ($parsed[$page->getName()] as $key => $element) {
@@ -80,16 +87,16 @@ final class Parser implements ParserInterface
                     $child = $child[$page->getName()][0];
                 }
 
-                $parsed[$page->getName()][$key] =
-                    array_merge(
-                        $parsed[$page->getName()][$key],
-                        $child
-                    );
+                $parsed[$page->getName()][$key] = array_merge($parsed[$page->getName()][$key], $child);
             }
         }
 
         if (!empty($page->getPagination())) {
-            $urlPagination = $this->dataExtractor->extract($data, $page->getPagination()->getRoute());
+            $urlPagination = $this->extract(
+                $data,
+                $page->getPagination()->getRoute(),
+                $page->getQuery()->getExpectedContentType()
+            );
 
             if (count($urlPagination[0])) {
                 $parsed[$page->getName()] =
@@ -114,5 +121,29 @@ final class Parser implements ParserInterface
             preg_match('/http(s)?:\/\//', $url)
                 ? $url
                 : rtrim($rootUrl, '/') . $url;
+    }
+
+    /**
+     * @param Query $query
+     * @return string
+     */
+    private function provideData(Query $query)
+    {
+        try {
+            return $this->dataProvider->provide($query);
+        } catch (Throwable $e) {
+            return '';
+        }
+    }
+
+    /**
+     * @param string $data
+     * @param Route $route
+     * @param string $type
+     * @return array
+     */
+    private function extract(string $data, Route $route, string $type): array
+    {
+        return $this->dataExtractorFactory->spawn($type)->extract($data, $route);
     }
 }
