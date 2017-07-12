@@ -63,7 +63,7 @@ final class Html implements DataExtractorInterface
             if (!empty($element->getChildren())) {
                 $extracted[$element->getKey()] = $this->extractNodes($element->getChildren(), $xpath);
             } else {
-                $extractedValues = $this->extractGroup($element->getValue(), $xpath, $parentNode);
+                $extractedValues = $this->extractGroup($element, $xpath, $parentNode);
 
                 if ($extractedValues->length) {
                     $extracted[$element->getKey()] = $this->resolveDataByKey($element->getKey(), $extractedValues);
@@ -75,17 +75,17 @@ final class Html implements DataExtractorInterface
     }
 
     /**
-     * @param string $path
+     * @param RouteElement $element
      * @param DOMXPath $xpath
      * @param DOMNode|null $parentNode
      * @return DOMNodeList
      */
-    private function extractGroup(string $path, DOMXPath $xpath, DOMNode $parentNode = null): DOMNodeList
+    private function extractGroup(RouteElement $element, DOMXPath $xpath, DOMNode $parentNode = null): DOMNodeList
     {
         return
             is_null($parentNode)
-                ? $xpath->query($path)
-                : $xpath->query($path, $parentNode)
+                ? $xpath->query($element->getValue())
+                : $xpath->query($element->getValue(), $parentNode)
             ;
     }
 
