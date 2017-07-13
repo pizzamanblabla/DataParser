@@ -1,10 +1,11 @@
 <?php
 
-namespace ParseSDKBundle\DataExtractor;
+namespace ParseSDKBundle\Tests\DataExtractor\Configurable;
 
+use ParseSDKBundle\DataExtractor\Configurable\Html;
 use PHPUnit\Framework\TestCase;
 
-class HtmlToArrayDataExtractorTest extends TestCase
+final class HtmlTest extends TestCase
 {
     /**
      * @test
